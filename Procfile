@@ -1,1 +1,1 @@
-web: gunicorn hit--me:app
+web: newrelic-admin run-program gunicorn hit--me:app
