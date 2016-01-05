@@ -10,7 +10,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 
 @app.route('/')
-def hello_world():
+def index():
     return 'Hit Me application for load testing demonstrations'
 
 
