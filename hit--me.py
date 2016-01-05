@@ -3,6 +3,8 @@ from time import sleep
 from flask import Flask
 from flask.ext.cache import Cache
 
+import newrelic.agent
+
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
@@ -20,6 +22,14 @@ def blitz_io():
 @app.route('/<int:millis>ms')
 def delay_for_amount_of_millis(millis):
     sleep(millis / 1000)
+    return "This request took like {}ms".format(millis)
+
+
+@app.route('/measure/<int:millis>ms')
+def delay_for_amount_of_millis_and_mesure(millis):
+    transaction = newrelic.agent.current_transaction()
+    with newrelic.agent.FunctionTrace(transaction, "App is sleeping right now", 'Python/EndPoint'):
+        sleep(millis / 1000)
     return "This request took like {}ms".format(millis)
 
 
